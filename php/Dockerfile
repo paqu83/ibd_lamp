@@ -1,7 +1,7 @@
 FROM php:8.1-apache  AS BASE
 ENV PHP_IDE_CONFIG="serverName=localhost"
 
-ENV APACHE_DOCUMENT_ROOT /var/www/docroot
+ENV APACHE_DOCUMENT_ROOT /var/www/public
 
 # php.ini configs.
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -14,6 +14,7 @@ RUN a2enmod rewrite
 
 # Install developer dependencies
 RUN apt-get update -yqq && apt-get install -y vim wget git libsqlite3-dev nano libxml2-dev libicu-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev libcurl4-gnutls-dev libbz2-dev libssl-dev -yqq
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
 ADD http://curl.haxx.se/ca/cacert.pem /usr/lib/ssl/certs/cacert.pem
 RUN chmod 644 /usr/lib/ssl/certs/cacert.pem
@@ -58,12 +59,12 @@ RUN apt-get install -y rsync
 # RUN apt-get install -y inotify-tools
 
 
-RUN mkdir /var/www/docroot \
-    && chown -R www-data /var/www/docroot
+RUN mkdir /var/www/public \
+    && chown -R www-data /var/www/public
 
 RUN echo 'max_execution_time = 320' >> /usr/local/etc/php/conf.d/docker-php-maxexectime.ini;
 
-WORKDIR /var/www/docroot
+WORKDIR /var/www/public
 
 # Install xdebug for development
 RUN pecl install xdebug \
