@@ -131,4 +131,17 @@ class Pages extends BaseController {
             . view('templates/footer');
     }
 
+    public function projekt() : mixed {
+        $db = \Config\Database::connect();
+        $content = [];
+        $query   = $db->query('SELECT * FROM `history`');
+        $content['results'] = $query->getResult('array');
+        $content['chart'] = 'eur/pln'; // | 'usd/pln'
+        if ($this->request->getMethod() === 'post') {
+            $content['chart'] = $this->request->getPost('chart');
+
+        }
+        return view('pages/projekt', $content);
+    }
+
 }

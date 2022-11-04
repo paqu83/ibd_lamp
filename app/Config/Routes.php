@@ -42,6 +42,7 @@ $routes->match(['get', 'post'],'/zadanie_2/edit/(:any)', 'Pages::zadanie_2_edit/
 $routes->match(['get', 'post'],'/zadanie_2/delete/(:any)', 'Pages::zadanie_2_delete/$1');
 $routes->get('/zadanie_2/(:any)', 'Pages::zadanie_2/$1');
 $routes->get('/zadanie_3', 'Pages::zadanie_3');
+$routes->match(['get', 'post'],'/projekt', 'Pages::projekt');
 //$routes->get('(:any)', 'Pages::view/$1');
 
 /*
