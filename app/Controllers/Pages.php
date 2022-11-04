@@ -111,4 +111,24 @@ class Pages extends BaseController {
             . view('templates/footer');
     }
 
+    public function zadanie_3() : mixed {
+        $content['title'] = 'Zadanie 3';
+        $db = \Config\Database::connect();
+        $views = [
+            'subscribers_added',
+            'subscribers_deleted',
+            'subscribers_deleted_added',
+            'subscribers_edited',
+            'subscribers_all',
+        ];
+        foreach ($views as $view_name) {
+            $query   = $db->query('SELECT * FROM `' . $view_name . '`');
+            $content['results'][$view_name] = $query->getResult('array');
+        }
+
+        return view('templates/header', $content)
+            . view('pages/zad_3_list', $content)
+            . view('templates/footer');
+    }
+
 }
